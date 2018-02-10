@@ -28,9 +28,9 @@ export class MapComponent implements OnInit {
   }
 
   private eventMapLoaded: Subject<any>;
-  private eventCountrySelected: Subject<string>;
-  private eventCountryMapped: Subject<string>;
-  private eventSubscriptions: Subject<any>[] = [];
+  private eventCountrySelected: Subject<any>;
+  private eventCountryMapped: Subject<any>;
+  private eventSubscriptions: Subscription[] = [];
 
   constructor(
     private renderer: Renderer2,
@@ -80,7 +80,7 @@ export class MapComponent implements OnInit {
                   position: latlng,
                   map: this.map,
                   animation: google.maps.Animation.DROP,
-                  icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
+                  icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'
               });
 
               google.maps.event.addListener(

@@ -3,6 +3,9 @@ import {
   ElementRef, Renderer2, Input, ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs/Subscription';
+
 import { GithubService } from '../services/github.service';
 import { EventService } from '../services/event.service';
 import { DataService } from '../services/data.service';
@@ -18,9 +21,9 @@ export class InfoComponent implements OnInit {
 
   private isHidden:boolean = true;
   private githubUsers:any = {country: '', countryCode: 'sg', userCount:0, topUsers:[]};
-  private eventCountryMapped: Subject<string>;
-  private eventCountrySelected: Subject<string>;
-  private eventSubscriptions: Subject<any>[] = [];
+  private eventCountryMapped: Subject<any>;
+  private eventCountrySelected: Subject<any>;
+  private eventSubscriptions: Subscription[] = [];
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -70,8 +73,8 @@ export class InfoComponent implements OnInit {
             this.dataService.getCountries().subscribe(
               (data) => {
                 if (data) {
-                  this.countries = data;
-                  for (let country of this.countries) {
+                  let countries = data;
+                  for (let country of countries) {
                     if (country.name === countryValue) {
                       this.githubUsers.countryCode = country.code;
                     }

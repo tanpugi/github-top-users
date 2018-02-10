@@ -3,10 +3,14 @@ import {
   ElementRef, Renderer2, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs/Subscription';
+
 import { DataService } from '../services/data.service';
 import { EventService } from '../services/event.service';
 
-import { Country } from '../models/Country'
+import { Country } from '../models/country.model'
+
 
 @Component({
   selector: 'app-filter',
@@ -17,12 +21,12 @@ export class FilterComponent implements OnInit {
 
   @ViewChild('countrySelection')
   private countrySelection: ElementRef;
-  private countrySelected: String;
+  private countrySelected: string;
   private countries: Country[];
 
   private eventMapLoaded: Subject<any>;
-  private eventCountrySelected: Subject<string>;
-  private eventSubscriptions: Subject<any>[] = [];
+  private eventCountrySelected: Subject<any>;
+  private eventSubscriptions: Subscription[] = [];
 
   constructor(
     private renderer: Renderer2,
@@ -43,6 +47,7 @@ export class FilterComponent implements OnInit {
       esub.unsubscribe();
     }
   }
+
 
   //Component Events
   private onCountrySelection(countryValue: string) {
