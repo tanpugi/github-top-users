@@ -1,6 +1,7 @@
 # GithubTopUsers
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.8.
+Install `npm` and use `npm install` in the folder of this project to download all necessary dependencies.
 
 ## Development server
 
