@@ -1,0 +1,14 @@
+<div [hidden]="isHidden" class="list-group info-overlay" style="width: 20rem;">
+  <a href="#" class="list-group-item list-group-item-action active">
+    Number of Users in {{ githubUsers.country }}
+    <h3>
+      <span class="badge badge-secondary badge-light">{{ githubUsers.userCount }}</span>
+      <img src="http://www.countryflags.io/{{ githubUsers.countryCode }}/flat/64.png" />
+    </h3>
+  </a>
+  <a href="#"
+    class="list-group-item list-group-item-action"
+    *ngFor="let user of githubUsers.topUsers">
+    <span><img [src]="user.avatar_url" /><a class="card-link" [href]="user.html_url">{{ user.login }}</a></span>
+  </a>
+</div>
