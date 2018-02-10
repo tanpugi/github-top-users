@@ -28,8 +28,8 @@ export class InfoComponent implements OnInit {
     private githubService: GithubService,
     private eventService: EventService,
     private dataService: DataService){
-      this.eventCountryMapped = this.eventService.getMapEvent('COUNTRY_MAPPED');
-      this.eventCountrySelected = this.eventService.getMapEvent('COUNTRY_SELECTED');
+      this.eventCountryMapped = this.eventService.getCountryMappedEvent();
+      this.eventCountrySelected = this.eventService.getCountrySelectedEvent();
   }
 
   //Angular Lifecycle Events
@@ -77,6 +77,7 @@ export class InfoComponent implements OnInit {
                     }
                   }
                 }
+                //Angular can't update the above models in UI. need to manually update it.
                 this.changeDetector.detectChanges();
             });
         });

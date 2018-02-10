@@ -13,4 +13,7 @@ export class EventService {
     return this._gmapEventMap[id];
   }
 
+  public getMapLoadedEvent() { return this.getMapEvent('MAP_LOADED'); }
+  public getCountrySelectedEvent() { return this.getMapEvent('COUNTRY_SELECTED'); }
+  public getCountryMappedEvent() { return this.getMapEvent('COUNTRY_MAPPED'); }
 }

@@ -35,9 +35,9 @@ export class MapComponent implements OnInit {
   constructor(
     private renderer: Renderer2,
     private eventService: EventService){
-      this.eventMapLoaded = this.eventService.getMapEvent('MAP_LOADED');
-      this.eventCountrySelected = this.eventService.getMapEvent('COUNTRY_SELECTED');
-      this.eventCountryMapped = this.eventService.getMapEvent('COUNTRY_MAPPED');
+      this.eventMapLoaded = this.eventService.getMapLoadedEvent();
+      this.eventCountrySelected = this.eventService.getCountrySelectedEvent();
+      this.eventCountryMapped = this.eventService.getCountryMappedEvent();
   }
 
   //Angular Lifecycle Events

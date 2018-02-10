@@ -28,8 +28,8 @@ export class FilterComponent implements OnInit {
     private renderer: Renderer2,
     private dataService: DataService,
     private eventService: EventService){
-      this.eventMapLoaded = this.eventService.getMapEvent('MAP_LOADED');
-      this.eventCountrySelected = this.eventService.getMapEvent('COUNTRY_SELECTED');
+      this.eventMapLoaded = this.eventService.getMapLoadedEvent();
+      this.eventCountrySelected = this.eventService.getCountrySelectedEvent();
   }
 
   //Angular Lifecycle Events
