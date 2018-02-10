@@ -2,7 +2,7 @@
     #countrySelection
     (change)="onCountrySelection(countrySelection.value)"
     [value]="countrySelected">
-      <option *ngFor="let country of countries" value="{{ country.name }}">
+      <option *ngFor="let country of countries" value="{{ country.code }}">
         {{ country.name }}
       </option>
   </select>

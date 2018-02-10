@@ -11,5 +11,4 @@ export class GithubService {
       return this.http.get("https://api.github.com/search/users?q=location:"
         +countryValue+"&sort=followers&order=desc");
   }
-
 }

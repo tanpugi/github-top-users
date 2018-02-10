@@ -65,10 +65,10 @@ export class MapComponent implements OnInit {
   }
   private _countrySelected() {
     let event = this.eventCountrySelected.subscribe(
-      (countryValue: String) => {
+      (countryCode: string) => {
         let geocoder = new google.maps.Geocoder();
         geocoder.geocode(
-          {'address' : countryValue},
+          {'address' : countryCode},
           (results, status) => {
             if (status == google.maps.GeocoderStatus.OK) {
               let latlng = results[0].geometry.location;
@@ -85,7 +85,7 @@ export class MapComponent implements OnInit {
 
               google.maps.event.addListener(
                 this.mapMarker,
-                'click', ()=> { this.eventCountryMapped.next(countryValue); }
+                'click', ()=> { this.eventCountryMapped.next(countryCode); }
               );
             }
           }

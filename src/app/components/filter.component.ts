@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/mergeMap';
 
 import { DataService } from '../services/data.service';
 import { EventService } from '../services/event.service';
@@ -48,26 +49,25 @@ export class FilterComponent implements OnInit {
     }
   }
 
-
   //Component Events
-  private onCountrySelection(countryValue: string) {
-    if (countryValue) {
-      this.eventCountrySelected.next(countryValue);
+  private onCountrySelection(countryCode: string) {
+    if (countryCode) {
+      this.eventCountrySelected.next(countryCode);
     }
   }
 
   //Application Events
   private _mapLoaded() {
-    let event = this.eventMapLoaded.subscribe(
-      () => {
-        this.dataService.getCountries().subscribe(
-          (data) => {
-            if (data) {
-              this.countries = data;
-              this.countrySelected = 'Singapore';
-              this.onCountrySelection(this.countrySelected);
-            }
-        });
+    let event = this.eventMapLoaded
+      .mergeMap(() => {
+        return this.dataService.getCountries();
+      })
+      .subscribe((data) => {
+        if (data) {
+          this.countries = data;
+          this.countrySelected = 'SG';
+          this.onCountrySelection(this.countrySelected);
+        }
         this.eventSubscriptions.push(event);
       }
     );

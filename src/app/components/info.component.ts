@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/mergeMap';
 
 import { GithubService } from '../services/github.service';
 import { EventService } from '../services/event.service';
@@ -51,40 +52,42 @@ export class InfoComponent implements OnInit {
   //Application Events
   private _countrySelected() {
     let event = this.eventCountrySelected.subscribe(
-      (countryValue: String) => {
+      (countryCode: String) => {
         this.isHidden = true;
-        this.eventSubscriptions.push(event);
         this.changeDetector.detectChanges();
+        this.eventSubscriptions.push(event);
       }
     )
   }
   private _countryMapped() {
-    let event = this.eventCountryMapped.subscribe(
-      (countryValue: string) => {
-        this.githubService.getUsersByCountry(countryValue)
-          .subscribe((data) => {
-            let userCount = data.total_count;
-            let users = data.items;
-            this.githubUsers.userCount = userCount,
-            this.githubUsers.topUsers = users.slice(0, 10);
-            this.githubUsers.country = countryValue;
-            this.isHidden = false;
-
-            this.dataService.getCountries().subscribe(
-              (data) => {
-                if (data) {
-                  let countries = data;
-                  for (let country of countries) {
-                    if (country.name === countryValue) {
-                      this.githubUsers.countryCode = country.code;
-                    }
-                  }
-                }
-                //Angular can't update the above models in UI. need to manually update it.
-                this.changeDetector.detectChanges();
-            });
-        });
-
+    let _countryCode = '';
+    let _countryName = '';
+    let event = this.eventCountryMapped
+      .mergeMap((countryCode: string) => {
+          _countryCode = countryCode;
+          return this.dataService.getCountries();
+      })
+      .mergeMap((data) => {
+        if (data) {
+          let countries = data;
+          for (let country of countries) {
+            if (country.code === _countryCode) {
+              _countryName = country.name;
+              return this.githubService.getUsersByCountry(country.name);
+            }
+          }
+        }
+      })
+      .subscribe((data) => {
+        let userCount = data.total_count;
+        let users = data.items;
+        this.githubUsers.country = _countryName;
+        this.githubUsers.countryCode = _countryCode;
+        this.githubUsers.userCount = userCount;
+        this.githubUsers.topUsers = users.slice(0, 10);
+        this.isHidden = false;
+        //Angular can't update the above models in UI. need to manually update it.
+        this.changeDetector.detectChanges();
         this.eventSubscriptions.push(event);
       }
     );
