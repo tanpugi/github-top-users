@@ -100,7 +100,7 @@ export class MapComponent implements OnInit {
     let checkGMapApi = setInterval(() => {
       checkGMapCount++;
       try {
-        if (google != undefined || checkGMapCount < CHECK_GMAP_COUNT_LIMIT) {
+        if (google != undefined || checkGMapCount > CHECK_GMAP_COUNT_LIMIT) {
           this.eventMapLoaded.next({});
           clearInterval(checkGMapApi);
         }
